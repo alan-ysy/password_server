@@ -4,7 +4,6 @@ import com.example.password_server.model.Password;
 import com.example.password_server.model.User;
 import com.example.password_server.repository.PasswordRepository;
 import com.example.password_server.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +14,13 @@ import java.util.List;
 @RequestMapping("/passwords")
 public class PasswordController {
 
-    @Autowired
-    private PasswordRepository passwordRepository;
+    private final PasswordRepository passwordRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    public PasswordController(PasswordRepository passwordRepository, UserRepository userRepository) {
+        this.passwordRepository = passwordRepository;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping
     public ResponseEntity<Void> storePassword(@RequestBody Password password) {
